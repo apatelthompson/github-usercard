@@ -37,7 +37,8 @@ const followersArray = [
   "dustinmyers",
   "justsml",
   "luishrd",
-  "bigknell"
+  "bigknell",
+  "brockfalfas"
 ];
 
 followersArray.forEach(elem => {
@@ -103,8 +104,9 @@ function createUserCard(users) {
   name.textContent = "Name: " + users.name;
   userName.textContent = users.login;
   location.textContent = "Location: " + users.location;
-  profile.textContent = "Profile: " + users.url;
-  // a.href = users.url;
+  profile.prepend(document.createTextNode("Profile:"));
+  profileUrl.href = users.url;
+  profileUrl.textContent = users.url;
   followers.textContent = "Followers: " + users.followers;
   following.textContent = "Following: " + users.following;
   bio.textContent = "Bio: " + users.bio;
