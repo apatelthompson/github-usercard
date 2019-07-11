@@ -24,26 +24,6 @@
           user, and adding that card to the DOM.
 */
 
-/* Step 3: Create a function that accepts a single object as its only argument,
-          Using DOM methods and properties, create a component that will return the following DOM element:
-
-<div class="card">
-  <img src={image url of user} />
-  <div class="card-info">
-    <h3 class="name">{users name}</h3>
-    <p class="username">{users user name}</p>
-    <p>Location: {users location}</p>
-    <p>Profile:
-      <a href={address to users github page}>{address to users github page}</a>
-    </p>
-    <p>Followers: {users followers count}</p>
-    <p>Following: {users following count}</p>
-    <p>Bio: {users bio}</p>
-  </div>
-</div>
-
-*/
-
 /* List of LS Instructors Github username's:
   tetondan
   dustinmyers
@@ -59,6 +39,21 @@ const followersArray = [
   "luishrd",
   "bigknell"
 ];
+
+followersArray.forEach(elem => {
+  axios
+    .get(`https://api.github.com/users/${elem}`)
+    .then(response => {
+      console.log("response", response.data);
+      cards.appendChild(createUserCard(response.data));
+    })
+    .catch(error => {
+      console.log(
+        "The gitub api is currently down, please come back later.",
+        error
+      );
+    });
+});
 
 const cards = document.querySelector(".cards");
 
@@ -105,6 +100,33 @@ function createUserCard(users) {
   userName.classList.add("username");
 
   img.src = users.avatar_url;
+  name.textContent = "Name: " + users.name;
+  userName.textContent = users.login;
+  location.textContent = "Location: " + users.location;
+  profile.textContent = "Profile: " + users.url;
+  // a.href = users.url;
+  followers.textContent = "Followers: " + users.followers;
+  following.textContent = "Following: " + users.following;
+  bio.textContent = "Bio: " + users.bio;
 
+  /* Step 3: Create a function that accepts a single object as its only argument,
+            Using DOM methods and properties, create a component that will return the following DOM element:
+
+  <div class="card">
+    <img src={image url of user} />
+    <div class="card-info">
+      <h3 class="name">{users name}</h3>
+      <p class="username">{users user name}</p>
+      <p>Location: {users location}</p>
+      <p>Profile:
+        <a href={address to users github page}>{address to users github page}</a>
+      </p>
+      <p>Followers: {users followers count}</p>
+      <p>Following: {users following count}</p>
+      <p>Bio: {users bio}</p>
+    </div>
+  </div>
+
+  */
   return card;
 }
