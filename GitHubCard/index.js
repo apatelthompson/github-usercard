@@ -24,8 +24,6 @@
           user, and adding that card to the DOM.
 */
 
-const followersArray = [tetondan, dustinmyers, justsml, luishrd, bigknell];
-
 /* Step 3: Create a function that accepts a single object as its only argument,
           Using DOM methods and properties, create a component that will return the following DOM element:
 
@@ -54,26 +52,28 @@ const followersArray = [tetondan, dustinmyers, justsml, luishrd, bigknell];
   bigknell
 */
 
-const cards = document.querySelector(".cards");
-
-// axios.get(`https://api.github.com/users/apatelthompson`)
-//   .then(data => {
-//     console.log('response', data)
-//     const images = data.data.message
-//     images.forEach(imageUrl => {
-//       const element = createUserCard(users)
-//       entry.appendChild(element)
-//     })
-//   })
-//   .catch(error => {
-//     console.log('The gitub api is currently down, please come back later.', error)
-//   })
+const followersArray = [
+  "tetondan",
+  "dustinmyers",
+  "justsml",
+  "luishrd",
+  "bigknell"
+];
 
 const cards = document.querySelector(".cards");
 
-const user = createUserCard(`https://api.github.com/users/apatelthompson`);
-
-cards.appendChild(user);
+axios
+  .get(`https://api.github.com/users/apatelthompson`)
+  .then(response => {
+    console.log("response", response.data);
+    cards.appendChild(createUserCard(response.data));
+  })
+  .catch(error => {
+    console.log(
+      "The gitub api is currently down, please come back later.",
+      error
+    );
+  });
 
 function createUserCard(users) {
   const card = document.createElement("div");
@@ -88,10 +88,6 @@ function createUserCard(users) {
   const following = document.createElement("p");
   const bio = document.createElement("p");
 
-  const cards = document.querySelector(".cards");
-  console.log(cards);
-
-  cards.appendChild(card);
   card.appendChild(img);
   card.appendChild(cardInfo);
   cardInfo.appendChild(name);
@@ -108,7 +104,7 @@ function createUserCard(users) {
   name.classList.add("name");
   userName.classList.add("username");
 
-  img.src = avatar_url;
+  img.src = users.avatar_url;
 
   return card;
 }
