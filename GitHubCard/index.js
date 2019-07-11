@@ -38,7 +38,8 @@ const followersArray = [
   "justsml",
   "luishrd",
   "bigknell",
-  "brockfalfas"
+  "brockfalfas",
+  "apatelthompson"
 ];
 
 followersArray.forEach(elem => {
@@ -58,18 +59,18 @@ followersArray.forEach(elem => {
 
 const cards = document.querySelector(".cards");
 
-axios
-  .get(`https://api.github.com/users/apatelthompson`)
-  .then(response => {
-    console.log("response", response.data);
-    cards.appendChild(createUserCard(response.data));
-  })
-  .catch(error => {
-    console.log(
-      "The gitub api is currently down, please come back later.",
-      error
-    );
-  });
+// axios
+//   .get(`https://api.github.com/users/apatelthompson`)
+//   .then(response => {
+//     console.log("response", response.data);
+//     cards.appendChild(createUserCard(response.data));
+//   })
+//   .catch(error => {
+//     console.log(
+//       "The gitub api is currently down, please come back later.",
+//       error
+//     );
+//   });
 
 function createUserCard(users) {
   const card = document.createElement("div");
@@ -84,6 +85,22 @@ function createUserCard(users) {
   const following = document.createElement("p");
   const bio = document.createElement("p");
 
+  card.classList.add("card");
+  cardInfo.classList.add("card-info");
+  name.classList.add("name");
+  userName.classList.add("username");
+
+  img.src = users.avatar_url;
+  name.textContent = "Name: " + users.name;
+  userName.textContent = users.login;
+  location.textContent = "Location: " + users.location;
+  profile.textContent = "Profile: ";
+  profileUrl.textContent = users.url;
+  profileUrl.href = users.url;
+  followers.textContent = "Followers: " + users.followers;
+  following.textContent = "Following: " + users.following;
+  bio.textContent = "Bio: " + users.bio;
+
   card.appendChild(img);
   card.appendChild(cardInfo);
   cardInfo.appendChild(name);
@@ -95,40 +112,5 @@ function createUserCard(users) {
   cardInfo.appendChild(bio);
   profile.appendChild(profileUrl);
 
-  card.classList.add("card");
-  cardInfo.classList.add("card-info");
-  name.classList.add("name");
-  userName.classList.add("username");
-
-  img.src = users.avatar_url;
-  name.textContent = "Name: " + users.name;
-  userName.textContent = users.login;
-  location.textContent = "Location: " + users.location;
-  profile.prepend(document.createTextNode("Profile:"));
-  profileUrl.href = users.url;
-  profileUrl.textContent = users.url;
-  followers.textContent = "Followers: " + users.followers;
-  following.textContent = "Following: " + users.following;
-  bio.textContent = "Bio: " + users.bio;
-
-  /* Step 3: Create a function that accepts a single object as its only argument,
-            Using DOM methods and properties, create a component that will return the following DOM element:
-
-  <div class="card">
-    <img src={image url of user} />
-    <div class="card-info">
-      <h3 class="name">{users name}</h3>
-      <p class="username">{users user name}</p>
-      <p>Location: {users location}</p>
-      <p>Profile:
-        <a href={address to users github page}>{address to users github page}</a>
-      </p>
-      <p>Followers: {users followers count}</p>
-      <p>Following: {users following count}</p>
-      <p>Bio: {users bio}</p>
-    </div>
-  </div>
-
-  */
   return card;
 }
